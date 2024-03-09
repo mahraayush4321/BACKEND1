@@ -14,6 +14,14 @@ class Response {
             message: 'oops! something went wrong',
         });
     }
-}
+    
+    createErrorResponse(res,error) {
+        res.status(Http_STATUS.NOTFOUND).json({
+            status:404,
+            error:true,
+            message: 'user not identified, please fill correct credentials',
+        });
+    }
+};
 
 module.exports = new Response();
