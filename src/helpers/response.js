@@ -15,12 +15,22 @@ class Response {
         });
     }
     
-    createErrorResponse(res,error) {
+    createNotFoundResponse(res,message) {
+        const defaultMessage = 'Oops!,User not found.';
         res.status(Http_STATUS.NOTFOUND).json({
             status:404,
             error:true,
-            message: 'user not identified, please fill correct credentials',
+            message: message || defaultMessage
         });
+    }
+
+    createUnauthorizedResponse(res, message) {
+        const defaultMessage = 'Password does not match, please fill the valid credentials';
+        res.status(Http_STATUS.UNAUTHORIZED).json({
+            status:401,
+            error:true,
+            message: message || defaultMessage
+        })
     }
 };
 

@@ -25,7 +25,7 @@ class User {
                 password:savedUser.password
             };
             const token = jwt.sign(payload,JWT_SECRET)
-            Response.createSucessResponse(res,HTTP_STATUS.SUCCESS, {user:savedUser, token});
+           Response.createSucessResponse(res,HTTP_STATUS.SUCCESS, {user:savedUser, token});
         } catch (error) {
             Response.createInternalErrorResponse(res,error);
         }
@@ -34,14 +34,14 @@ class User {
     loginUser = async (req,res) => {
         const {email, password} = req.body;
         try {
-            const user = await Model.findOne({email});
+            const user = await Model.findOne({email:email});
             if(!user) {
-               return  Response.createErrorResponse(res,{ message: 'User not found' });
+               return Response.createNotFoundResponse(res);
             }
             const passwordMatch = await bcrypt.compare(password,user.password) 
 
             if(!passwordMatch) {
-               return Response.createErrorResponse(res,{ message: 'Incorrect password' });
+               return Response.createUnauthorizedResponse(res);
             }
 
             const payload = {
@@ -51,7 +51,7 @@ class User {
                 email: user.email
             };
             const token = jwt.sign(payload, JWT_SECRET);
-            Response.createSuccessResponse(res, HTTP_STATUS.SUCCESS, { user, token });
+           Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { user, token });
         } catch (error) {
             Response.createInternalErrorResponse(res, error);
         }
