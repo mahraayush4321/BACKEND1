@@ -4,6 +4,8 @@ const loadRoutes = require('./src/Routes');
 const CONST = require('./src/helpers/constants');
 const app = express();
 
+require('dotenv').config();
+
 app.use(express.json({limit: '30mb'}));
 
 dbHelper.createConnection().then(() => {

@@ -12,13 +12,13 @@ const postSchema = new Schema({
     },
     photo: {
         type: String,
-        required: true
+        required: false
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
+    postedBy: {
+        type:mongoose.Schema.Types.ObjectId,
         ref: 'users'
-    },
-},{timestamps:true})
+    }
+},{timestamps:true,versionKey:false})
 
 const Post = mongoose.model('Post', postSchema);
 
