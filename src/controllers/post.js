@@ -4,15 +4,19 @@ const Model = require('../Models/post');
 class Posts {
     createNewPost = async (req,res) => {
         const {title,description,} = req.body;
+        const { _id: userId} = req.user;
         try {
             const newPostToInsert = new Model({
                 title,
                 description,
+                postedBy:userId
             });
             const savedPost = await newPostToInsert.save();
-            Response.createSucessResponse(res,HTTP_STATUS.SUCCESS,{post: savedPost});
+            const populatedPost = await Model.findById(savedPost._id).populate({path: 'postedBy', select: 'firstName lastName email'});
+            Response.createSucessResponse(res,HTTP_STATUS.SUCCESS,{post: populatedPost});
         } catch (error) {
-            Response.createInternalErrorResponse(res,error);
+            console.error("Error creating new post:", error);
+            Response.createInternalErrorResponse(res);
         }
     }
 }

@@ -23,7 +23,6 @@ class User {
                 lastName: savedUser.lastName,
                 email: savedUser.email,
             };
-            console.log("JWT_SECRET for createNewUser:", JWT_SECRET);
             const token = jwt.sign(payload,JWT_SECRET)
            Response.createSucessResponse(res,HTTP_STATUS.SUCCESS, {user:savedUser, token});
         } catch (error) {
@@ -50,7 +49,6 @@ class User {
                 lastName: user.lastName,
                 email: user.email
             };
-            console.log('jwt secret for login user:' ,JWT_SECRET)
             const token = jwt.sign(payload, JWT_SECRET);
            Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { user, token });
         } catch (error) {
