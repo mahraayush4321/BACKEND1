@@ -30,7 +30,16 @@ class Response {
             status:401,
             error:true,
             message: message || defaultMessage
-        })
+        });
+    }
+
+    createForbiddenResponse(res,message) {
+        const defaultMessage = 'You are not authorized to update this post';
+        res.status(Http_STATUS.FORBIDDEN).json({
+            status:403,
+            error:true,
+            message: message ||  defaultMessage
+        });
     }
 };
 

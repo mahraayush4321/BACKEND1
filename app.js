@@ -2,11 +2,18 @@ const express = require('express');
 const dbHelper = require('./src/helpers/dbHelper');
 const loadRoutes = require('./src/Routes');
 const CONST = require('./src/helpers/constants');
+const path = require('path')
 const app = express();
 
 require('dotenv').config();
 
 app.use(express.json({limit: '30mb'}));
+
+app.use(express.static(path.join(__dirname, 'src', 'public')));
+
+app.get('/createPost', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src','public', 'index.html'));
+});
 
 dbHelper.createConnection().then(() => {
     console.log('db connected');

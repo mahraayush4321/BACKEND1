@@ -55,6 +55,35 @@ class User {
             Response.createInternalErrorResponse(res, error);
         }
     }
+
+    getAllUser = async (req, res) => {
+        try {
+            const users = await Model.find();
+            const totalUsers = await Model.countDocuments();
+            Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { users , totalUsers});
+        } catch (error) {
+            Response.createInternalErrorResponse(res);
+        }
+    }
+
+    getSingleUser = async (req,res) => {
+        try {
+            const {userId} = req.params;
+            const getUser = await Model.findById(userId);
+            Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { getUser });
+        } catch (error) {
+            Response.createInternalErrorResponse(res);
+        }
+    }
+
+    deleteAllUsers = async (req,res) => {
+        try {
+            await Model.deleteMany({});
+            Response.createSucessResponse(res,HTTP_STATUS.SUCCESS,  { message: "All users deleted successfully" });
+        } catch (error) {
+            Response.createInternalErrorResponse(res);
+        }
+    }
 }
 
 module.exports = new User();
