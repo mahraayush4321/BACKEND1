@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
+const sportsCategory = ['cricket','football', 'badminton','basketBall', 'volleyball', 'TableTennis', 'ArmWrestling', 'chess']
 
 const postSchema = new Schema({
     title: {
@@ -17,6 +18,15 @@ const postSchema = new Schema({
     postedBy: {
         type:mongoose.Schema.Types.ObjectId,
         ref: 'users'
+    },
+    sports: {
+        type:String,
+        enum:sportsCategory,
+        required:true
+    },
+    pincode: {
+        type:Number,
+        required:true
     }
 },{timestamps:true,versionKey:false})
 

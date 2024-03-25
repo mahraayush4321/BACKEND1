@@ -4,12 +4,14 @@ const Model = require('../Models/post');
 const upload = require('../middleware/uploadMiddleware');
 class Posts {
     createNewPost = async (req, res) => {
-        const { title, description, } = req.body;
+        const { title, description,sports,pincode } = req.body;
         const { _id: userId } = req.user;
         try {
             const newPostToInsert = new Model({
                 title,
                 description,
+                sports,
+                pincode,
                 postedBy: userId,
             });
             const savedPost = await newPostToInsert.save();
@@ -88,6 +90,18 @@ class Posts {
         } catch (error) {
             Response.createInternalErrorResponse(res);
         }
+    }
+
+    getSportByCatergory = async (req,res) => {
+        const {category} = req.params;
+        try {
+            const CategoryPost = await Model.find({sports:category}).populate({path: 'postedBy', select: 'firstName lastName email'})
+            Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { posts: CategoryPost });
+        } catch (error) {
+            console.error("Error fetching posts by category:", error);
+            Response.createInternalErrorResponse(res); 
+        }
+        
     }
 }
 module.exports = new Posts();
