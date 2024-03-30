@@ -9,7 +9,8 @@ module.exports = async function authMiddleware (req,res,next) {
        return res.status(401).json({error: 'token was not found'});
     }
     try {
-        const decoded =  jwt.verify(token,JWT_SECRET);
+        const tokenWithoutPrefix = token.replace('Bearer ', '')
+        const decoded =  jwt.verify(tokenWithoutPrefix,JWT_SECRET);
         console.log('Decoded Token:', decoded);
         const user = await User.findById(decoded.userId);
         if (!user) {

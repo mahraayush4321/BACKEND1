@@ -9,6 +9,7 @@ router.delete('/deletePost/:postId', authMiddleware, Post.deletePost);
 router.get('/posts', authMiddleware, Post.getAllPostsByUser);
 router.get('/posts/:postId', Post.getSinglePost);
 router.get('/posts/category/:category', Post.getSportByCatergory);
+router.get('/allpost', Post.getAllPost);
 
 //do not use: Route to delete all posts from database 
 router.delete('/deletePosts', Post.deleteAllPost);

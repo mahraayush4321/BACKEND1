@@ -62,7 +62,7 @@ class Posts {
     getAllPostsByUser = async (req,res) => {
         const {_id:userId} = req.user;
         try {
-            const posts = await Model.find({ postedBy: userId }).populate({path: 'postedBy', select: 'firstName lastName email'});
+            const posts = await Model.find({ postedBy: userId }).populate({path: 'postedBy', select: 'firstName lastName email'}).sort({createdAt: -1});
             Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { posts });
         } catch (error) {
             Response.createInternalErrorResponse(res);
@@ -101,7 +101,17 @@ class Posts {
             console.error("Error fetching posts by category:", error);
             Response.createInternalErrorResponse(res); 
         }
-        
+    }
+
+    getAllPost = async(req, res) => {
+        try {
+           const allPost =  await Model.find({}).populate({path: 'postedBy', select: 'firstName lastName email'}).sort({createdAt:-1})
+           const totalDocs = await Model.countDocuments();
+           Response.createSucessResponse(res,HTTP_STATUS.SUCCESS, {totalDocs, allPosts: allPost });
+        } catch (error) {
+            console.error("Error fetching posts by category:", error);
+            Response.createInternalErrorResponse(res); 
+        }
     }
 }
 module.exports = new Posts();
