@@ -104,13 +104,30 @@ class Posts {
     }
 
     getAllPost = async(req, res) => {
+        const page = Number(req.query.page) || 1;
+        const size = Number(req.query.size) || 9;
+        const skip = (page - 1) * size;
         try {
-           const allPost =  await Model.find({}).populate({path: 'postedBy', select: 'firstName lastName email'}).sort({createdAt:-1})
-           const totalDocs = await Model.countDocuments();
+           const allPost =  await Model.find({}).populate({path: 'postedBy', select: 'firstName lastName email'})
+           .sort({createdAt:-1})
+           .skip(skip)
+           .limit(size);
+           const totalDocs = await Model.countDocuments({});
            Response.createSucessResponse(res,HTTP_STATUS.SUCCESS, {totalDocs, allPosts: allPost });
         } catch (error) {
             console.error("Error fetching posts by category:", error);
             Response.createInternalErrorResponse(res); 
+        }
+    }
+
+    searchSportsByPincode = async (req, res) => {
+        const {pincode} = req.query;
+        try {
+            const getPost = await Model.find({pincode:pincode})
+            Response.createSucessResponse(res,HTTP_STATUS.SUCCESS, {getPosts: getPost})
+        } catch (error) {
+            console.error('Error in searching post', error);
+            Response.createNotFoundResponse(res);
         }
     }
 }

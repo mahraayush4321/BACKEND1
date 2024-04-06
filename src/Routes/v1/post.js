@@ -10,6 +10,7 @@ router.get('/posts', authMiddleware, Post.getAllPostsByUser);
 router.get('/posts/:postId', Post.getSinglePost);
 router.get('/posts/category/:category', Post.getSportByCatergory);
 router.get('/allpost', Post.getAllPost);
+router.get('/bypin',Post.searchSportsByPincode)
 
 //do not use: Route to delete all posts from database 
 router.delete('/deletePosts', Post.deleteAllPost);
