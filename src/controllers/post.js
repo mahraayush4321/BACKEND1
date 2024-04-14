@@ -1,21 +1,27 @@
 const HTTP_STATUS = require('../helpers/http-status');
 const Response = require('../helpers/response');
 const Model = require('../Models/post');
-const upload = require('../middleware/uploadMiddleware');
+
 class Posts {
     createNewPost = async (req, res) => {
         const { title, description,sports,pincode } = req.body;
+        const file = req.file;
         const { _id: userId } = req.user;
+        const fileUrl = file ? `http://localhost:3001/uploads/${file.filename}` : '';
         try {
             const newPostToInsert = new Model({
                 title,
                 description,
                 sports,
                 pincode,
+                fileUrl,
                 postedBy: userId,
             });
+            console.log("New post to insert:", newPostToInsert);
             const savedPost = await newPostToInsert.save();
+            console.log("Saved post:", savedPost);
             const populatedPost = await Model.findById(savedPost._id).populate({ path: 'postedBy', select: 'firstName lastName email' });
+            console.log("Populated post:", populatedPost);
             Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { post: populatedPost });
         } catch (error) {
             console.error("Error creating new post:", error);

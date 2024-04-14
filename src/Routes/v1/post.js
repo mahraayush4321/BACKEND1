@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../../controllers/post');
 const authMiddleware = require('../../middleware/auth');
+const upload = require('../../middleware/uploadMiddleware');
 
-router.post('/post', authMiddleware, Post.createNewPost);
+router.post('/post', authMiddleware, upload.single('file'), Post.createNewPost);
 router.put('/updatePost/:postId', authMiddleware, Post.updatePost);
 router.delete('/deletePost/:postId', authMiddleware, Post.deletePost);
 router.get('/posts', authMiddleware, Post.getAllPostsByUser);
