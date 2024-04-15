@@ -17,11 +17,8 @@ class Posts {
                 fileUrl,
                 postedBy: userId,
             });
-            console.log("New post to insert:", newPostToInsert);
             const savedPost = await newPostToInsert.save();
-            console.log("Saved post:", savedPost);
             const populatedPost = await Model.findById(savedPost._id).populate({ path: 'postedBy', select: 'firstName lastName email' });
-            console.log("Populated post:", populatedPost);
             Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { post: populatedPost });
         } catch (error) {
             console.error("Error creating new post:", error);
