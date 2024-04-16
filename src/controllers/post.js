@@ -6,7 +6,7 @@ class Posts {
     createNewPost = async (req, res) => {
         const { title, description,sports,pincode } = req.body;
         const file = req.file;
-        const { _id: userId } = req.user;
+        const { _id: userId, token } = req.user;
         const fileUrl = file ? `http://localhost:3001/uploads/${file.filename}` : '';
         try {
             const newPostToInsert = new Model({
@@ -16,6 +16,7 @@ class Posts {
                 pincode,
                 fileUrl,
                 postedBy: userId,
+                userToken: token
             });
             const savedPost = await newPostToInsert.save();
             const populatedPost = await Model.findById(savedPost._id).populate({ path: 'postedBy', select: 'firstName lastName email' });
@@ -35,8 +36,9 @@ class Posts {
             }, { new: true }
             );
             const userId = req.user._id.toString();
-            if (post.postedBy.toString() !== userId) {
-                return Response.createForbiddenResponse(res);
+            const userToken = req.user.token;
+            if (post.postedBy.toString() !== userId || post.token !== userToken) {
+                return Response.createForbiddenResponse(res, "you are not authorized to update this post");
             }
             Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, post);
         } catch (error) {
@@ -99,6 +101,7 @@ class Posts {
         const {category} = req.params;
         try {
             const CategoryPost = await Model.find({sports:category}).populate({path: 'postedBy', select: 'firstName lastName email'})
+            .sort({ createdAt: -1 });
             Response.createSucessResponse(res, HTTP_STATUS.SUCCESS, { posts: CategoryPost });
         } catch (error) {
             console.error("Error fetching posts by category:", error);

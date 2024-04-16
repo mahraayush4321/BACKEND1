@@ -16,6 +16,7 @@ module.exports = async function authMiddleware (req,res,next) {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
+        user.token = tokenWithoutPrefix;
         req.user = user;
         next();
     } catch (error) {
