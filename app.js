@@ -19,6 +19,10 @@ app.get('/createPost', (req, res) => {
     res.sendFile(path.join(__dirname, 'src','public', 'index.html'));
 });
 
+app.get('/',(req,res) => {
+    res.send(`<h1>hello</h1>`)
+})
+
 app.use('/uploads', express.static('uploads'));
 
 dbHelper.createConnection().then(() => {
