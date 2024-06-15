@@ -7,7 +7,7 @@ class Posts {
         const { title, description,sports,pincode } = req.body;
         const file = req.file;
         const { _id: userId, token } = req.user;
-        const fileUrl = file ? `http://localhost:3001/uploads/${file.filename}` : '';
+        const fileUrl = file ? `https://s1backend1.onrender.com/uploads/${file.filename}` : '';
         try {
             const newPostToInsert = new Model({
                 title,
