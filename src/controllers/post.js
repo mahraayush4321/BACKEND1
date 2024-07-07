@@ -129,7 +129,7 @@ class Posts {
     searchSportsByPincode = async (req, res) => {
         const {pincode} = req.query;
         try {
-            const getPost = await Model.find({pincode:pincode})
+            const getPost = await Model.find({pincode:pincode}).sort({createdAt:-1})
             Response.createSucessResponse(res,HTTP_STATUS.SUCCESS, {getPosts: getPost})
         } catch (error) {
             console.error('Error in searching post', error);
