@@ -3,13 +3,16 @@ const dbHelper = require('./src/helpers/dbHelper');
 const loadRoutes = require('./src/Routes');
 const CONST = require('./src/helpers/constants');
 const path = require('path');
-const cors = require('cors')
+const cors = require('cors');
+const helmet = require('helmet');
 const app = express();
 
 app.use(cors({
     origin:'*'
 }))
 require('dotenv').config();
+
+app.use(helmet());
 
 app.use(express.json({limit: '30mb'}));
 
