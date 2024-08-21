@@ -12,7 +12,7 @@ app.use(cors({
 }))
 require('dotenv').config();
 
-app.use(helmet());
+app.use(helmet()); // helmet push
 
 app.use(express.json({limit: '30mb'}));
 
