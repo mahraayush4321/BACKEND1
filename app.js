@@ -6,8 +6,11 @@ const path = require('path');
 const cors = require('cors');
 const app = express();
 
+app.options('*', cors());
+
 app.use(cors({
-    origin:'*'
+    origin:['http://localhost:5173', 'https://sportstriviax.netlify.app'],
+    credentials: true
 }))
 require('dotenv').config();
 

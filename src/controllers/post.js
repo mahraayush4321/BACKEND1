@@ -1,20 +1,28 @@
 const HTTP_STATUS = require('../helpers/http-status');
 const Response = require('../helpers/response');
 const Model = require('../Models/post');
+const S3Service = require('../helpers/S3')
 
 class Posts {
     createNewPost = async (req, res) => {
         const { title, description,sports,pincode } = req.body;
         const file = req.file;
         const { _id: userId, token } = req.user;
-        const fileUrl = file ? `https://s1backend1.onrender.com/uploads/${file.filename}` : '';
+        // const fileUrl = file ? `https://s1backend1.onrender.com/uploads/${file.filename}` : '';
         try {
+
+            let fileData = null;
+            if (file) {
+                fileData = await S3Service.uploadFile(file);
+            }
+        
+
             const newPostToInsert = new Model({
                 title,
                 description,
                 sports,
                 pincode,
-                fileUrl,
+                fileUrl:fileData ? fileData.url: '',
                 postedBy: userId,
                 userToken: token
             });
