@@ -1,7 +1,7 @@
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const fs = require('fs');
 const path = require('path');
-
+require('dotenv').config();
 
 class S3Service {
     constructor(){
