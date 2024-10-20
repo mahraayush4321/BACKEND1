@@ -17,8 +17,10 @@ class S3Service {
     uploadFile = async (file) => {
         const { originalname, mimetype, buffer } = file; 
         try {
+            const BucketName = process.env.AWS_S3_BUCKET_NAME;
+            console.log('Bucket Name:', BucketName);
             const params = {
-                Bucket: process.env.AWS_S3_BUCKET_NAME,
+                Bucket: BucketName ,
                 Key: originalname,
                 Body: buffer, 
                 ContentType: mimetype,
