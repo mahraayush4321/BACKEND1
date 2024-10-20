@@ -8,22 +8,20 @@ class S3Service {
         this.s3 = new S3Client({ region: process.env.AWS_REGION });
     }
 
-     uploadFile = async (file) => {
-        const { originalname, mimetype, filename, path: filePath } = file;
+    uploadFile = async (file) => {
+        const { originalname, mimetype, buffer } = file; 
         try {
-            const fileData = fs.readFileSync(filePath);
             const params = {
                 Bucket: process.env.AWS_S3_BUCKET_NAME,
-                Key: filename,
-                Body: fileData,
+                Key: originalname,
+                Body: buffer, 
                 ContentType: mimetype,
-                ACL: 'public-read', 
+                ACL: 'public-read',
             };
             const uploadResult = await this.s3.send(new PutObjectCommand(params));
-            fs.unlinkSync(filePath);
-
+            console.log('the result of uploadFile',uploadResult);
             return {
-                url: `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${filename}`,
+                url: `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${originalname}`,
                 name: originalname,
             };
         } catch (error) {
