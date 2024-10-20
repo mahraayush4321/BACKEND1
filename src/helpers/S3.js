@@ -5,7 +5,7 @@ const path = require('path');
 
 class S3Service {
     constructor(){
-        this.s3 = new S3Client({ region: process.env.AWS_REGION });
+        this.s3 = new S3Client({ region: 'eu-north-1' });
     }
 
     uploadFile = async (file) => {
