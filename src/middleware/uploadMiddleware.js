@@ -1,5 +1,6 @@
 
 const multer = require('multer');
+//removed s3 for now
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
