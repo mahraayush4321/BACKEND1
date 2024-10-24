@@ -15,9 +15,6 @@ const io = socketIo(httpServer, {
     }
   });
 
-
-// const io = socketIo(httpServer);
-
 io.on('connection', (socket) => {
     console.log('A user connected');
   

@@ -1,6 +1,7 @@
 const HTTP_STATUS = require('../helpers/http-status');
 const Response = require('../helpers/response');
 const Model = require('../Models/post');
+const S3Service = require('../helpers/S3')
 
 class Posts {
     //removed s3
