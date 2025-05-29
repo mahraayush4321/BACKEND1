@@ -4,7 +4,6 @@ const Model = require('../Models/post');
 const S3Service = require('../helpers/S3')
 
 class Posts {
-    //removed s3
     createNewPost = async (req, res) => {
         const { title, description,sports,pincode } = req.body;
         const file = req.file;
